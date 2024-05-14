@@ -6,7 +6,6 @@ import shutil
 class Canvas:
     frame: int
     image: Image
-    imgDraw: ImageDraw
 
     width: int
     height: int
@@ -19,7 +18,6 @@ class Canvas:
         self.frames_dir = out_dir
 
         self.image = Image.new('RGB', (width, height))
-        self.imgDraw = ImageDraw.Draw(self.image)
 
         if os.path.isdir(out_dir):
             shutil.rmtree(out_dir)
@@ -130,17 +128,21 @@ class Canvas:
         return self.image.getpixel((x, y))
 
     def arc(self, x1: int, y1: int, x2: int, y2: int, start: int, end: int, width: int, color: tuple[int, int, int]):
-        self.imgDraw.arc([(x1, y1), (x2, y2)], start,
-                         end, fill=color, width=width)
+        imgDraw = ImageDraw.Draw(self.image)
+        imgDraw.arc([(x1, y1), (x2, y2)], start,
+                    end, fill=color, width=width)
 
     def line(self, x1: int, y1: int, x2: int, y2: int, width: int, color: tuple[int, int, int]):
-        self.imgDraw.line([(x1, y1), (x2, y2)], fill=color, width=width)
+        imgDraw = ImageDraw.Draw(self.image)
+        imgDraw.line([(x1, y1), (x2, y2)], fill=color, width=width)
 
     def rect(self, x1: int, y1: int, x2: int, y2: int, width: int, color: tuple[int, int, int]):
-        self.imgDraw.rectangle([(x1, y1), (x2, y2)], fill=color, width=width)
+        imgDraw = ImageDraw.Draw(self.image)
+        imgDraw.rectangle([(x1, y1), (x2, y2)], fill=color, width=width)
 
     def ellipse(self, x1: int, y1: int, x2: int, y2: int, width: int, color: tuple[int, int, int]):
-        self.imgDraw.ellipse([(x1, y1), (x2, y2)], fill=color, width=width)
+        imgDraw = ImageDraw.Draw(self.image)
+        imgDraw.ellipse([(x1, y1), (x2, y2)], fill=color, width=width)
 
     def draw(self):
         output = os.path.join(self.frames_dir, f'{self.frame}.png')
