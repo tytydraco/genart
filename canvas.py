@@ -77,7 +77,7 @@ class Canvas:
                 if draw:
                     self.draw()
 
-    def rotate(self, degrees: float = 90, expand: bool = False, fill_color: tuple[int, int, int] = None):
+    def rotate(self, degrees: float = 90, expand: bool = False, fill_color: tuple[int, int, int] = None, smooth: bool = False):
         """
         Parameters
         ----------
@@ -87,9 +87,12 @@ class Canvas:
             Expand the image size. May change dimensions.
         fill_color: tuple[int, int, int] = None
             Color to fill background with.
+        smooth: bool = False
+            Apply bicubic resampling.
         """
+        resampling = Image.Resampling.BILINEAR if smooth else Image.Resampling.NEAREST
         self.image = self.image.rotate(
-            degrees, expand=expand, fillcolor=fill_color)
+            degrees, expand=expand, fillcolor=fill_color, resample=resampling)
         self.width, self.height = self.image.size
 
     def show(self, title: str = None):
@@ -136,13 +139,28 @@ class Canvas:
         imgDraw = ImageDraw.Draw(self.image)
         imgDraw.line([(x1, y1), (x2, y2)], fill=color, width=width)
 
-    def rect(self, x1: int, y1: int, x2: int, y2: int, width: int, color: tuple[int, int, int]):
+    def rect(self, x1: int, y1: int, x2: int, y2: int, width: int, color: tuple[int, int, int], outline: bool = False):
         imgDraw = ImageDraw.Draw(self.image)
-        imgDraw.rectangle([(x1, y1), (x2, y2)], fill=color, width=width)
 
-    def ellipse(self, x1: int, y1: int, x2: int, y2: int, width: int, color: tuple[int, int, int]):
+        fc = color
+        oc = None
+        if outline:
+            oc = fc
+            fc = None
+
+        imgDraw.rectangle([(x1, y1), (x2, y2)], fill=fc,
+                          outline=oc, width=width)
+
+    def ellipse(self, x1: int, y1: int, x2: int, y2: int, width: int, color: tuple[int, int, int], outline: bool = False):
         imgDraw = ImageDraw.Draw(self.image)
-        imgDraw.ellipse([(x1, y1), (x2, y2)], fill=color, width=width)
+
+        fc = color
+        oc = None
+        if outline:
+            oc = fc
+            fc = None
+
+        imgDraw.ellipse([(x1, y1), (x2, y2)], fill=fc, outline=oc, width=width)
 
     def draw(self):
         output = os.path.join(self.frames_dir, f'{self.frame}.png')
