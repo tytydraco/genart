@@ -14,7 +14,7 @@ for _ in range(0, 24):
             c.put(x, y, (0, 0, 0))
 
         if x % 100 == 0:
-            c.imgDraw()
+            c.draw()
 
     for x in range(0, c.width):
         height = random.randint(32, 128)
@@ -23,7 +23,7 @@ for _ in range(0, 24):
             c.put(x, y, (0, 0, 0))
 
         if x % 100 == 0:
-            c.imgDraw()
+            c.draw()
 
     c.rotate(15)
 
