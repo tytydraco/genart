@@ -11,7 +11,7 @@ for _ in range(0, 365 * 2):
         c.put(c.width // 2, y, color)
 
     c.rotate(7)
-    c.draw()
+    c.imgDraw()
 
 c.show('Example')
 
