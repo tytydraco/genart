@@ -139,4 +139,4 @@ class Canvas:
                 for frame in frames]
         output = os.path.join(self.frames_dir, 'out.gif')
         self.image.save(output, 'gif', append_images=imgs,
-                        save_all=True, duration=fps)
+                        save_all=True, duration=fps, optimize=False)
