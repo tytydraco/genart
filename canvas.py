@@ -120,9 +120,9 @@ class Canvas:
             new_data[i] = result
         self.image.putdata(new_data)
 
-    def clear(self):
+    def clear(self, color: tuple[int, int, int] = (0, 0, 0)):
         pixel_cnt = len(self.image.getdata())
-        self.image.putdata([(0, 0, 0)] * pixel_cnt)
+        self.image.putdata([color] * pixel_cnt)
 
     def put(self, x: int, y: int, color: tuple[int, int, int]):
         self.image.putpixel((x, y), color)
