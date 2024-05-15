@@ -4,6 +4,14 @@ import random
 c = Canvas(512, 512)
 
 
+def xy(x: int, y: int):
+    return (x % c.width, y % c.height)
+
+
+def put_square(x: int, y: int, color: tuple[int, int, int]):
+    c.rect(x - 1, y - 1, x + 1, y + 1, 1, color)
+
+
 def make_snake(iters: int, color: tuple[int, int, int]):
     head_x = random.randint(0, c.width - 1)
     head_y = random.randint(0, c.height - 1)
@@ -37,7 +45,7 @@ def make_snake(iters: int, color: tuple[int, int, int]):
             head_x = head_x % c.width
             head_y = head_y % c.height
 
-            c.put(head_x, head_y, color)
+            put_square(head_x, head_y, color)
 
         c.draw()
 
@@ -45,6 +53,10 @@ def make_snake(iters: int, color: tuple[int, int, int]):
 make_snake(255, (255, 0, 0))
 make_snake(255, (0, 255, 0))
 make_snake(255, (0, 0, 255))
+make_snake(255, (0, 255, 255))
+make_snake(255, (255, 255, 0))
+make_snake(255, (255, 0, 255))
+make_snake(255, (255, 255, 255))
 
 c.draw()
 c.show('Example')
