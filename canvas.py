@@ -167,11 +167,11 @@ class Canvas:
         self.image.save(output, 'png')
         self.frame += 1
 
-    def make_gif(self, fps: int = 30):
+    def make_gif(self, fps: int = 30, loop: bool = False):
         frames = os.listdir(self.frames_dir)
 
         imgs = [Image.open(os.path.join(self.frames_dir, frame))
                 for frame in frames]
         output = os.path.join(self.frames_dir, 'out.gif')
         self.image.save(output, 'gif', append_images=imgs,
-                        save_all=True, duration=fps, optimize=False)
+                        save_all=True, duration=fps, optimize=False, loop=loop)
