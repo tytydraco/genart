@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw
 import os
 import shutil
+import re
 
 
 class Canvas:
@@ -168,7 +169,20 @@ class Canvas:
         self.frame += 1
 
     def make_gif(self, fps: int = 30, loop: bool = False):
+        def tryint(s):
+            try:
+                return int(s)
+            except ValueError:
+                return s
+
+        def alphanum_key(s):
+            return [tryint(c) for c in re.split('([0-9]+)', s)]
+
+        def sort_nicely(l):
+            return sorted(l, key=alphanum_key)
+
         frames = os.listdir(self.frames_dir)
+        frames = sort_nicely(frames)
 
         imgs = [Image.open(os.path.join(self.frames_dir, frame))
                 for frame in frames]
